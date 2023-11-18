@@ -1,4 +1,4 @@
-<h1 align='center' style="font-size:5rem"><b>Página de Login Responsiva com Glassmorphism</b></h1>
+<h1 align='center' style="font-size:5rem"><b>Página de Login Responsiva</b></h1>
 
 </div>
 <br><br><br>
