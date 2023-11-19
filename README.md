@@ -1,35 +1,35 @@
-<h1 align='center' style="font-size:5rem"><b>Loca Filme Login Page</b></h1>
+<h1 align='center' style="font-size:5rem"><b>Risponsive Glassmorphism Login Page</b></h1>
 
 </div>
 <br><br><br>
 <h2 align='center'>
-    You can use this login page for your project ,furthermore customize it to working in real websites.
+    Você pode usar esta página de login em seu projeto e personalizá-la para funcionar em sites reais.
 </h2>
 
 <br><br><br>
 
 <div align='center'>
-    <h2>Desktop Mode</h2>
+    <h2>Modo Desktop</h2>
     <img style='border-radius:5px' src="./images/desktop.png"></img>
 </div>
 <hr/>
 <div align='center'>
-    <h2>Mobile Mode</h2>
+    <h2>Modo Mobile</h2>
     <img style='border-radius:5px' src="./images/mobile.png"></img>
 </div>
 <hr>
 
 <br><br><br><br>
 
-<h1 align='center'><b>Abilities</b></h1>
+<h1 align='center'><b>Habilidades</b></h1>
 
 <ul>
-    <li> This is just an UI nothing more, don't expect anything more than just beauty :)</li>
+    <li>Isso é apenas uma interface de usuário, não espere nada além de beleza :)</li>
 </ul>
 
 <hr>
 <br><br><br><br>
-<h1 align='center'><b>Language and technologies used in This Project</h1>
+<h1 align='center'><b>Linguagens e tecnologias usadas neste projeto</h1>
 <img src="https://img.shields.io/badge/WebStorm-000000?style=for-the-badge&logo=WebStorm&logoColor=white"/>
 <img src="https://img.shields.io/badge/VSCode-0078D4?style=for-the-badge&logo=visual%20studio%20code&logoColor=white"/>
 <img src="https://img.shields.io/badge/NPM-%23000000.svg?style=for-the-badge&logo=npm&logoColor=white"/>
@@ -43,22 +43,24 @@
 
 <br><br><br><br>
 
-<h1 align='center'><b>Requirements</b></h1>
+<h1 align='center'><b>Requisitos</b></h1>
 
-Download and install `NodeJS` from official website <a href="https://nodejs.org/">nodeJS.org</a>
+Faça o download e instale o `NodeJS` no site oficial <a href="https://nodejs.org/">nodeJS.org</a>
 
 <br><br><br><br>
 
-<h1 align='center'><b>How To Run</b></h1>
+<h1 align='center'><b>Como Executar</b></h1>
 
-At first you have to clone the project and open it in `IDE`
-
-<br>
-
-Open IDE's terminal and then write `~ npm i` to install dependencies
+Primeiro, você precisa clonar o projeto e abri-lo em sua `IDE`
 
 <br>
 
-Then write `~ npm start` and then enter
+Abra o terminal da IDE e digite `~ npm i` para instalar as dependências
 
-Congratulations ,now you can use this page for your beautiful project.
+<br>
+
+Em seguida, digite `~ npm start` e pressione Enter
+
+Parabéns, agora você pode usar esta página em seu belo projeto.
+
+Este trabalho foi realizado como parte do projeto da faculdade por Gustavo Girardi e Felipe Seganfredo, usando React com Next JS.
