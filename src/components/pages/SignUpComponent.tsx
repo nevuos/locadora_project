@@ -1,9 +1,31 @@
-import { Box, Button, Checkbox, colors, Typography } from "@mui/material";
+import { Box, Button, colors, Typography } from "@mui/material";
 import Grid from "@mui/material/Unstable_Grid2/Grid2";
 import React from "react";
+import { useForm, SubmitHandler } from 'react-hook-form';
 import CustomInput from "../CustomInput";
+import { validationRules } from "../../utils/validator";
+
+interface FormValues {
+  nome: string;
+  email: string;
+  senha: string;
+}
 
 const SignUpComponent: React.FC = () => {
+  const {
+    handleSubmit,
+    register,
+    formState: { errors },
+  } = useForm<FormValues>();
+
+  const onSubmit: SubmitHandler<FormValues> = async (data) => {
+    try {
+      
+    } catch (error) {
+
+    }
+  };
+
   return (
     <Grid
       xs={12}
@@ -66,31 +88,43 @@ const SignUpComponent: React.FC = () => {
           </Box>
 
           {/* INPUTS */}
-          <CustomInput
-            label="Nome"
-            placeholder="Digite seu nome..."
-            isIconActive={false}
-          />
-          <CustomInput
-            label="E-mail"
-            placeholder="Digite seu e-mail..."
-            isIconActive={false}
-          />
-          <CustomInput
-            label="Senha"
-            placeholder="Crie uma senha..."
-            isIconActive={true}
-          />
-          {/* FIM DOS INPUTS */}
+          <form onSubmit={handleSubmit(onSubmit)}>
+            <CustomInput
+              label="Nome"
+              placeholder="Digite seu nome..."
+              isIconActive={false}
+              {...register('nome', validationRules.nome)}
+            />
+            {errors.nome && <p>{errors.nome.message?.toString()}</p>}
 
-          <Button
-            variant="contained"
-            fullWidth
-            sx={{ mt: 4, boxShadow: `0 0 20px ${colors.green[500]}` }}
-          >
-            Registrar
-          </Button>
-          <Box display="flex" justifyContent="center" mt={2}>
+            <CustomInput
+              label="E-mail"
+              placeholder="Digite seu e-mail..."
+              isIconActive={false}
+              {...register('email', validationRules.email)}
+            />
+            {errors.email && <p>{errors.email.message?.toString()}</p>}
+
+            <CustomInput
+              label="Senha"
+              placeholder="Crie uma senha..."
+              isIconActive={true}
+              {...register('senha', validationRules.password)}
+            />
+            {errors.senha && <p>{errors.senha.message?.toString()}</p>}
+
+            {/* FIM DOS INPUTS */}
+
+            <Button
+              type="submit"
+              variant="contained"
+              fullWidth
+              sx={{ mt: 2, boxShadow: `0 0 20px ${colors.green[500]}` }}
+            >
+              Registrar
+            </Button>
+          </form>
+          <Box display="flex" justifyContent="center" mt={1}>
             <Typography color="white">
               Já tem uma conta?{" "}
               <a href="/SignInPage" style={{ color: colors.green[500], textDecoration: "none" }}>
@@ -98,7 +132,6 @@ const SignUpComponent: React.FC = () => {
               </a>
             </Typography>
           </Box>
-
         </Box>
       </Box>
     </Grid>

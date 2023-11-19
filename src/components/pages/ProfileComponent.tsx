@@ -1,13 +1,17 @@
 import React, { useState } from 'react';
 import { useForm } from 'react-hook-form';
-import { Box, Button, TextField, Avatar, colors, Container, Paper } from '@mui/material';
+import { Box, Button, TextField, Avatar, colors, Container, Paper, InputAdornment, IconButton } from '@mui/material';
 import SaveIcon from '@mui/icons-material/Save';
 import DeleteIcon from '@mui/icons-material/Delete';
 import EditIcon from '@mui/icons-material/Edit';
+import { Visibility, VisibilityOff } from '@mui/icons-material';
+import { validationRules } from '../../utils/validator';
 
 const ProfileComponent: React.FC = () => {
   const { register, handleSubmit, formState: { errors } } = useForm();
   const [isEditable, setIsEditable] = useState(false);
+  const [showPassword, setShowPassword] = useState(false);
+
 
   const handleEditClick = () => {
     setIsEditable(true);
@@ -24,6 +28,11 @@ const ProfileComponent: React.FC = () => {
     console.log('Deletando a conta');
     // Aqui você pode chamar o serviço para deletar a conta
   };
+
+  const togglePasswordVisibility = () => {
+    setShowPassword(!showPassword);
+  };
+
 
   return (
     <Container maxWidth="md" sx={{ py: 4, height: '90vh' }}>
@@ -61,7 +70,7 @@ const ProfileComponent: React.FC = () => {
               variant="outlined"
               fullWidth
               disabled={!isEditable}
-              {...register("nome", { required: "Nome é obrigatório" })}
+              {...register("nome", validationRules.nome)}
               error={!!errors.nome}
               helperText={(errors.nome && typeof errors.nome.message === 'string') ? errors.nome.message : ''}
             />
@@ -71,26 +80,33 @@ const ProfileComponent: React.FC = () => {
               variant="outlined"
               fullWidth
               disabled={!isEditable}
-              {...register("email", {
-                required: "E-mail é obrigatório",
-                pattern: {
-                  value: /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/,
-                  message: "E-mail inválido"
-                }
-              })}
+              {...register("email", validationRules.email)}
               error={!!errors.email}
               helperText={(errors.email && typeof errors.email.message === 'string') ? errors.email.message : ''}
             />
 
             <TextField
               label="Senha"
-              type="password"
+              type={showPassword ? 'text' : 'password'}
               variant="outlined"
               fullWidth
               disabled={!isEditable}
-              {...register("senha", { required: "Senha é obrigatória" })}
+              {...register("senha", validationRules.password)}
               error={!!errors.senha}
               helperText={(errors.senha && typeof errors.senha.message === 'string') ? errors.senha.message : ''}
+              InputProps={{
+                endAdornment: (
+                  <InputAdornment position="end">
+                    <IconButton
+                      aria-label="toggle password visibility"
+                      onClick={togglePasswordVisibility}
+                      edge="end"
+                    >
+                      {showPassword ? <Visibility /> : <VisibilityOff />}
+                    </IconButton>
+                  </InputAdornment>
+                ),
+              }}
             />
 
             <Box
