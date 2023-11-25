@@ -12,9 +12,9 @@ const handleRequestError = (error: any) => {
   throw error.response?.data || error.message;
 };
 
-export const registerUser = async (userData: User): Promise<void> => {
+export const registerUser = async (userData: User): Promise<User> => {
   try {
-    const response: AxiosResponse<void> = await api.post('/auth/register', userData);
+    const response: AxiosResponse<User> = await api.post('/auth/register', userData);
     return response.data;
   } catch (error) {
     handleRequestError(error);

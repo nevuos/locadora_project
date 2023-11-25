@@ -1,6 +1,5 @@
 import { Box, ThemeProvider } from "@mui/material";
 import { theme } from "../theme";
-import { createTheme } from '@mui/material/styles';
 
 const bgImage = require("../assets/bg.png");
 

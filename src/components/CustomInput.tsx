@@ -13,7 +13,7 @@ interface CustomInputProps {
   isIconActive: boolean;
   label: string;
   placeholder: string;
-  name: string; 
+  name: string;
   type?: string;
   autoComplete?: string;
   error?: boolean;
@@ -29,7 +29,7 @@ const CustomInput = forwardRef<HTMLInputElement, CustomInputProps>(
       isIconActive,
       label,
       placeholder,
-      name, 
+      name,
       type = "text",
       autoComplete = "off",
       error,
@@ -66,7 +66,7 @@ const CustomInput = forwardRef<HTMLInputElement, CustomInputProps>(
           >
             <InputBase
               ref={ref}
-              name={name} // Adicionado o atributo 'name'
+              name={name}
               type={isIconActive && type === "password" ? (showPassword ? "text" : "password") : type}
               placeholder={placeholder}
               value={value}

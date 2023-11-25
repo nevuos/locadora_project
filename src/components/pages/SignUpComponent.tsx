@@ -4,6 +4,7 @@ import React from "react";
 import { useForm, SubmitHandler } from 'react-hook-form';
 import CustomInput from "../CustomInput";
 import User from "../../core/UserData";
+import { validationRules } from "../../utils/validator";
 
 interface SignUpProps {
   onSignUp: (userData: User) => void;
@@ -18,7 +19,6 @@ const SignUpComponent: React.FC<SignUpProps> = ({ onSignUp, }) => {
 
   const onSubmit: SubmitHandler<User> = async (userData) => {
     try {
-      console.log(userData);
       onSignUp(userData);
     } catch (error) {
     }
@@ -74,13 +74,13 @@ const SignUpComponent: React.FC<SignUpProps> = ({ onSignUp, }) => {
                 boxShadow: `0 0 20px ${colors.green[500]}`,
               }}
             >
-              <Typography variant="h6" fontWeight="bold" color="white">
-                AA
+              <Typography variant="h6" fontWeight="bold" color="white" fontSize="16px">
+                LF
               </Typography>
             </Box>
             {/* FIM DO LOGO */}
 
-            <Typography color="white" fontWeight="bold" mt={7} mb={3}>
+            <Typography color="white" fontWeight="bold" mt={4} mb={3}>
               Registrar-se
             </Typography>
           </Box>
@@ -91,26 +91,28 @@ const SignUpComponent: React.FC<SignUpProps> = ({ onSignUp, }) => {
               label="Nome"
               placeholder="Digite seu nome..."
               isIconActive={false}
-              {...register("username")}
+              {...register("username", validationRules.nome)}
+              error={!!errors.username}
+              helperText={errors.username?.message}
             />
-
-            {errors.username && <span>{errors.username.message}</span>}
 
             <CustomInput
               label="E-mail"
               placeholder="Digite seu e-mail..."
               isIconActive={false}
-              {...register("email")}
+              {...register("email", validationRules.email)}
+              error={!!errors.email}
+              helperText={errors.email?.message}
             />
-            {errors.email && <span>{errors.email.message}</span>}
 
             <CustomInput
               label="Senha"
               placeholder="Crie uma senha..."
               isIconActive={true}
-              {...register("password")}
+              {...register("password", validationRules.password)}
+              error={!!errors.password}
+              helperText={errors.password?.message}
             />
-            {errors.password && <span>{errors.password.message}</span>}
 
             {/* FIM DOS INPUTS */}
 
@@ -118,7 +120,7 @@ const SignUpComponent: React.FC<SignUpProps> = ({ onSignUp, }) => {
               type="submit"
               variant="contained"
               fullWidth
-              sx={{ mt: 2, boxShadow: `0 0 20px ${colors.green[500]}` }}
+              sx={{ mt: 1, boxShadow: `0 0 20px ${colors.green[500]}` }}
             >
               Registrar
             </Button>
