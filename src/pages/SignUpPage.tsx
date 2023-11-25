@@ -1,7 +1,15 @@
-import SignUpComponent from '../components/pages/SignUpComponent';
+import React from "react";
+import User from "../core/UserData";
+import SignUpComponent from "../components/pages/SignUpComponent";
 
 const SignUpPage = () => {
-  return <SignUpComponent />;
+
+  const handleSignUp = (userData: User) => {
+    
+    console.log("Dados do usuário registrados:", userData);
+  };
+
+  return <SignUpComponent onSignUp={handleSignUp} />;
 };
 
 export default SignUpPage;

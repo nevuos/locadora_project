@@ -1,4 +1,5 @@
 import axios, { AxiosResponse } from 'axios';
+import User from '../core/UserData';
 
 const BASE_URL = 'http://localhost:8080/api'; 
 
@@ -6,11 +7,6 @@ const api = axios.create({
   baseURL: BASE_URL,
 });
 
-interface User {
-  username: string;
-  email: string;
-  password: string;
-}
 
 const handleRequestError = (error: any) => {
   throw error.response?.data || error.message;

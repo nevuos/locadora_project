@@ -3,26 +3,24 @@ import Grid from "@mui/material/Unstable_Grid2/Grid2";
 import React from "react";
 import { useForm, SubmitHandler } from 'react-hook-form';
 import CustomInput from "../CustomInput";
-import { validationRules } from "../../utils/validator";
+import User from "../../core/UserData";
 
-interface FormValues {
-  nome: string;
-  email: string;
-  senha: string;
+interface SignUpProps {
+  onSignUp: (userData: User) => void;
 }
 
-const SignUpComponent: React.FC = () => {
+const SignUpComponent: React.FC<SignUpProps> = ({ onSignUp, }) => {
   const {
     handleSubmit,
     register,
     formState: { errors },
-  } = useForm<FormValues>();
+  } = useForm<User>();
 
-  const onSubmit: SubmitHandler<FormValues> = async (data) => {
+  const onSubmit: SubmitHandler<User> = async (userData) => {
     try {
-      
+      console.log(userData);
+      onSignUp(userData);
     } catch (error) {
-
     }
   };
 
@@ -93,25 +91,26 @@ const SignUpComponent: React.FC = () => {
               label="Nome"
               placeholder="Digite seu nome..."
               isIconActive={false}
-              {...register('nome', validationRules.nome)}
+              {...register("username")}
             />
-            {errors.nome && <p>{errors.nome.message?.toString()}</p>}
+
+            {errors.username && <span>{errors.username.message}</span>}
 
             <CustomInput
               label="E-mail"
               placeholder="Digite seu e-mail..."
               isIconActive={false}
-              {...register('email', validationRules.email)}
+              {...register("email")}
             />
-            {errors.email && <p>{errors.email.message?.toString()}</p>}
+            {errors.email && <span>{errors.email.message}</span>}
 
             <CustomInput
               label="Senha"
               placeholder="Crie uma senha..."
               isIconActive={true}
-              {...register('senha', validationRules.password)}
+              {...register("password")}
             />
-            {errors.senha && <p>{errors.senha.message?.toString()}</p>}
+            {errors.password && <span>{errors.password.message}</span>}
 
             {/* FIM DOS INPUTS */}
 
@@ -134,7 +133,7 @@ const SignUpComponent: React.FC = () => {
           </Box>
         </Box>
       </Box>
-    </Grid>
+    </Grid >
   );
 };
 

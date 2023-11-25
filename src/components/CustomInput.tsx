@@ -1,4 +1,4 @@
-import React, { useState, useEffect, forwardRef, ForwardedRef } from 'react';
+import React, { forwardRef } from 'react';
 import { Visibility, VisibilityOff } from "@mui/icons-material";
 import {
   Box,
@@ -11,56 +11,40 @@ import {
 
 interface CustomInputProps {
   isIconActive: boolean;
-  validateInput?: (value: string) => boolean;
   label: string;
   placeholder: string;
+  name: string; 
   type?: string;
   autoComplete?: string;
   error?: boolean;
   helperText?: string;
   onChange?: (event: React.ChangeEvent<HTMLInputElement>) => void;
   onBlur?: (event: React.FocusEvent<HTMLInputElement>) => void;
+  value?: string;
 }
 
-const CustomInput: React.FC<CustomInputProps> = forwardRef(
+const CustomInput = forwardRef<HTMLInputElement, CustomInputProps>(
   (
     {
       isIconActive,
-      validateInput,
       label,
       placeholder,
+      name, 
       type = "text",
       autoComplete = "off",
-      error: propError,
+      error,
       helperText,
       onChange,
       onBlur,
+      value,
     },
-    ref: ForwardedRef<HTMLInputElement>
+    ref
   ) => {
-    const [showPassword, setShowPassword] = useState(false);
-    const [value, setValue] = useState('');
-    const [error, setError] = useState(false);
+    const [showPassword, setShowPassword] = React.useState(false);
 
     const handleToggleShowPassword = () => {
       setShowPassword(!showPassword);
     };
-
-    const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-      const newValue = event.target.value;
-      setValue(newValue);
-      if (onChange) {
-        onChange(event);
-      }
-
-      if (validateInput) {
-        setError(!validateInput(newValue));
-      }
-    };
-
-    useEffect(() => {
-      setError(propError ?? false);
-    }, [propError]);
 
     return (
       <Box
@@ -81,10 +65,12 @@ const CustomInput: React.FC<CustomInputProps> = forwardRef(
             }}
           >
             <InputBase
+              ref={ref}
+              name={name} // Adicionado o atributo 'name'
               type={isIconActive && type === "password" ? (showPassword ? "text" : "password") : type}
               placeholder={placeholder}
               value={value}
-              onChange={handleChange}
+              onChange={onChange}
               onBlur={onBlur}
               fullWidth
               sx={{
@@ -102,8 +88,7 @@ const CustomInput: React.FC<CustomInputProps> = forwardRef(
                 ) : null
               }
               autoComplete={autoComplete}
-              error={error}
-              inputRef={ref}
+              error={!!error}
             />
           </Paper>
           {helperText && error && (
