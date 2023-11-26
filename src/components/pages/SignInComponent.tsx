@@ -3,23 +3,28 @@ import Grid from "@mui/material/Unstable_Grid2/Grid2";
 import React, { useState } from "react";
 import CustomInput from "../CustomInput";
 import { NavLink } from 'react-router-dom';
-import { useForm } from 'react-hook-form';
+import { SubmitHandler, useForm } from 'react-hook-form';
 import { validationRules } from "../../utils/validator";
+import User from "../../core/UserData";
+import LogoComponent from "../logo/LogoComponent";
 
-const SignInComponent: React.FC = () => {
-  const { register, handleSubmit, formState: { errors }, watch, trigger } = useForm();
+
+interface SignInProps {
+  onSignIn: (userData: User, rememberMe: boolean) => void;
+}
+
+const SignInComponent: React.FC<SignInProps> = ({ onSignIn }) => {
+  const { register, reset, handleSubmit, formState: { errors } } = useForm<User>();
   const [rememberMe, setRememberMe] = useState(false);
 
-  const onSubmit = (data: any) => {
-    const loginData = {
-      ...data,
-      rememberMe,
-    };
-    console.log('Dados do formulário:', loginData);
-    // Aqui você pode chamar o serviço para enviar os dados
+  const onSubmit: SubmitHandler<User> = async (userData) => {
+    try {
+      await onSignIn(userData, rememberMe);
+      reset();
+    } catch (error) {
+      throw error;
+    }
   };
-
-  const watchPassword = watch("senha", "");
 
   return (
     <Grid
@@ -58,23 +63,7 @@ const SignInComponent: React.FC = () => {
         <Box width="80%">
           <Box display="flex" flexDirection="column" alignItems="center">
             {/* LOGO */}
-            <Box
-              sx={{
-                mt: "60px",
-                width: "50px",
-                height: "50px",
-                bgcolor: "primary.main",
-                borderRadius: "12px",
-                display: "flex",
-                alignItems: "center",
-                justifyContent: "center",
-                boxShadow: `0 0 20px ${colors.green[500]}`,
-              }}
-            >
-              <Typography variant="h6" fontWeight="bold" color="white">
-                AA
-              </Typography>
-            </Box>
+            <LogoComponent />
             {/* FIM DO LOGO */}
 
             <Typography color="white" fontWeight="bold" mt={7} mb={3}>
@@ -90,20 +79,17 @@ const SignInComponent: React.FC = () => {
               isIconActive={false}
               {...register("email", validationRules.email)}
               error={!!errors.email}
-              helperText={errors.email?.message?.toString()}
-              onChange={() => {
-                trigger("email");
-              }}
+              helperText={errors.email?.message}
             />
 
             <CustomInput
               label="Senha"
+              type="password"
               placeholder="Digite sua senha..."
               isIconActive={true}
-              {...register("senha", validationRules.password)}
-              type="password"
-              error={!!errors.senha}
-              helperText={errors.senha?.message?.toString()}
+              {...register("password", validationRules.password)}
+              error={!!errors.password}
+              helperText={errors.password?.message}
             />
 
             {/* FIM DOS INPUTS */}
@@ -125,15 +111,11 @@ const SignInComponent: React.FC = () => {
                 />
                 <Typography>Lembrar de mim</Typography>
               </div>
-              <a
-                href="/ResetPasswordPage"
-                style={{
-                  color: colors.green[500],
-                  textDecoration: "none",
-                }}
-              >
-                Esqueceu a senha?
-              </a>
+              <Typography color="white">
+                <NavLink to="/ResetPasswordPage" style={{ color: colors.green[500], textDecoration: "none" }}>
+                  Esqueceu a senha?
+                </NavLink>
+              </Typography>
             </Box>
             <Button
               type="submit"

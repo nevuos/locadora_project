@@ -5,6 +5,7 @@ import CustomInput from "../CustomInput";
 import { NavLink } from "react-router-dom";
 import { useForm } from 'react-hook-form';
 import { validationRules } from "../../utils/validator";
+import LogoComponent from "../logo/LogoComponent";
 
 const ResetPasswordComponent: React.FC = () => {
   const { register, handleSubmit, formState: { errors } } = useForm();
@@ -51,23 +52,7 @@ const ResetPasswordComponent: React.FC = () => {
         <Box width="80%">
           <Box display="flex" flexDirection="column" alignItems="center">
             {/* LOGO */}
-            <Box
-              sx={{
-                mt: "60px",
-                width: "50px",
-                height: "50px",
-                bgcolor: "primary.main",
-                borderRadius: "12px",
-                display: "flex",
-                alignItems: "center",
-                justifyContent: "center",
-                boxShadow: `0 0 20px ${colors.green[500]}`,
-              }}
-            >
-              <Typography variant="h6" fontWeight="bold" color="white">
-                AA
-              </Typography>
-            </Box>
+            <LogoComponent />
             {/* FIM DO LOGO */}
 
             <Typography color="white" fontWeight="bold" mt={7} mb={3}>

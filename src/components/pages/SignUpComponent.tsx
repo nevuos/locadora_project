@@ -1,10 +1,11 @@
 import { Box, Button, colors, Typography } from "@mui/material";
 import Grid from "@mui/material/Unstable_Grid2/Grid2";
 import React from "react";
-import { useForm, SubmitHandler } from 'react-hook-form';
+import { useForm, SubmitHandler} from 'react-hook-form';
 import CustomInput from "../CustomInput";
 import User from "../../core/UserData";
 import { validationRules } from "../../utils/validator";
+import LogoComponent from "../logo/LogoComponent";
 
 interface SignUpProps {
   onSignUp: (userData: User) => void;
@@ -15,11 +16,13 @@ const SignUpComponent: React.FC<SignUpProps> = ({ onSignUp, }) => {
     handleSubmit,
     register,
     formState: { errors },
+    reset
   } = useForm<User>();
 
   const onSubmit: SubmitHandler<User> = async (userData) => {
     try {
-      onSignUp(userData);
+      await onSignUp(userData);
+      reset();
     } catch (error) {
     }
   };
@@ -61,25 +64,8 @@ const SignUpComponent: React.FC<SignUpProps> = ({ onSignUp, }) => {
         <Box width="80%">
           <Box display="flex" flexDirection="column" alignItems="center">
             {/* LOGO */}
-            <Box
-              sx={{
-                mt: "60px",
-                width: "50px",
-                height: "50px",
-                bgcolor: "primary.main",
-                borderRadius: "12px",
-                display: "flex",
-                alignItems: "center",
-                justifyContent: "center",
-                boxShadow: `0 0 20px ${colors.green[500]}`,
-              }}
-            >
-              <Typography variant="h6" fontWeight="bold" color="white" fontSize="16px">
-                LF
-              </Typography>
-            </Box>
+            <LogoComponent />
             {/* FIM DO LOGO */}
-
             <Typography color="white" fontWeight="bold" mt={4} mb={3}>
               Registrar-se
             </Typography>
@@ -108,6 +94,7 @@ const SignUpComponent: React.FC<SignUpProps> = ({ onSignUp, }) => {
             <CustomInput
               label="Senha"
               placeholder="Crie uma senha..."
+              type="password"
               isIconActive={true}
               {...register("password", validationRules.password)}
               error={!!errors.password}

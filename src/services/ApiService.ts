@@ -12,9 +12,13 @@ const handleRequestError = (error: any) => {
   throw error.response?.data || error.message;
 };
 
-export const registerUser = async (userData: User): Promise<User> => {
+interface LoginResponse {
+  access_token: string;
+}
+
+export const registerUser = async (userData: User): Promise<{ msg: string }> => {
   try {
-    const response: AxiosResponse<User> = await api.post('/auth/register', userData);
+    const response: AxiosResponse<{ msg: string }> = await api.post('/auth/register', userData);
     return response.data;
   } catch (error) {
     handleRequestError(error);
@@ -22,13 +26,14 @@ export const registerUser = async (userData: User): Promise<User> => {
   }
 };
 
-export const loginUser = async (loginData: User): Promise<void> => {
+
+export const loginUser = async (userData: User): Promise<LoginResponse> => {
   try {
-    const response: AxiosResponse<void> = await api.post('/login', loginData);
-    return response.data;
+    const response: AxiosResponse<LoginResponse> = await api.post('/auth/login', userData);
+    return response.data
   } catch (error) {
     handleRequestError(error);
-    return Promise.reject(error); 
+    return Promise.reject(error);
   }
 };
 

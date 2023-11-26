@@ -7,11 +7,11 @@ import EditIcon from '@mui/icons-material/Edit';
 import { Visibility, VisibilityOff } from '@mui/icons-material';
 import { validationRules } from '../../utils/validator';
 
-const ProfileComponent: React.FC = () => {
+
+const ProfileComponent: React.FC<{ onLogout: () => void }> = ({ onLogout }) => {
   const { register, handleSubmit, formState: { errors } } = useForm();
   const [isEditable, setIsEditable] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
-
 
   const handleEditClick = () => {
     setIsEditable(true);
@@ -23,7 +23,6 @@ const ProfileComponent: React.FC = () => {
     setIsEditable(false);
   };
 
-
   const handleDelete = () => {
     console.log('Deletando a conta');
     // Aqui você pode chamar o serviço para deletar a conta
@@ -33,6 +32,9 @@ const ProfileComponent: React.FC = () => {
     setShowPassword(!showPassword);
   };
 
+  const handleLogoutClick = () => {
+    onLogout();
+  };
 
   return (
     <Container maxWidth="md" sx={{ py: 4, height: '90vh' }}>
@@ -161,6 +163,20 @@ const ProfileComponent: React.FC = () => {
                 }}
               >
                 Deletar Conta
+              </Button>
+
+              <Button
+                variant="contained"
+                onClick={handleLogoutClick}
+                sx={{
+                  backgroundColor: colors.blue[500],
+                  color: 'white',
+                  '&:hover': {
+                    backgroundColor: colors.blue[600],
+                  },
+                }}
+              >
+                Sair
               </Button>
             </Box>
           </Box>
