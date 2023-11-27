@@ -1,31 +1,49 @@
-import React, { useState } from 'react';
-import { useForm } from 'react-hook-form';
+import React, { useState, useEffect } from 'react';
+import { useForm, SubmitHandler } from 'react-hook-form';
 import { Box, Button, TextField, Avatar, colors, Container, Paper, InputAdornment, IconButton } from '@mui/material';
 import SaveIcon from '@mui/icons-material/Save';
 import DeleteIcon from '@mui/icons-material/Delete';
 import EditIcon from '@mui/icons-material/Edit';
 import { Visibility, VisibilityOff } from '@mui/icons-material';
 import { validationRules } from '../../utils/validator';
+import { getUsers } from '../../services/ApiService';
+import { useLocation } from 'react-router-dom';
+import User from '../../core/UserData';
 
+const ProfileComponent: React.FC<{ onLogout: () => void, onLoadingPage: (userData: User) => void, onUpdate: (userData: User) => void, onDelete: (id: Number | null) => void }> = ({ onLogout, onLoadingPage, onUpdate, onDelete }) => {
 
-const ProfileComponent: React.FC<{ onLogout: () => void }> = ({ onLogout }) => {
-  const { register, handleSubmit, formState: { errors } } = useForm();
+  const {
+    register,
+    setValue,
+    getValues,
+    handleSubmit,
+    formState: { errors }
+  } = useForm<User>();
+
   const [isEditable, setIsEditable] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
-
+  const location = useLocation();
+  const email = location.state?.email;
   const handleEditClick = () => {
     setIsEditable(true);
   };
 
-  const handleSave = (data: any) => {
-    console.log('Salvando os dados:', data);
-    // Aqui você pode chamar o serviço para atualizar os dados
+  const onSubmit: SubmitHandler<User> = async (UserData) => {
+
+    if (UserData) {
+      try {
+        onUpdate(UserData);
+      } catch (error) {
+
+      }
+    }
+
     setIsEditable(false);
   };
 
   const handleDelete = () => {
-    console.log('Deletando a conta');
-    // Aqui você pode chamar o serviço para deletar a conta
+    const id = getValues('id');
+    onDelete(id);
   };
 
   const togglePasswordVisibility = () => {
@@ -36,8 +54,29 @@ const ProfileComponent: React.FC<{ onLogout: () => void }> = ({ onLogout }) => {
     onLogout();
   };
 
+  useEffect(() => {
+    const fetchUserData = async () => {
+      try {
+        const userData = await getUsers(email);
+        onLoadingPage(userData);
+
+        setValue('username', userData.username);
+        setValue('email', userData.email);
+        setValue('password', userData.password);
+        setValue('id', userData.id)
+      } catch (error) {
+        console.error("Erro ao resgatar as informações: ", error);
+      }
+    };
+
+    if (email) {
+      fetchUserData();
+    }
+  }, [email, onLoadingPage, setValue]);
+
+
   return (
-    <Container maxWidth="md" sx={{ py: 4, height: '90vh' }}>
+    <Container maxWidth="md" sx={{ py: 8, height: '90vh' }}>
       <Paper
         sx={{
           backgroundColor: 'rgba(55, 65, 81, 0.9)',
@@ -50,7 +89,7 @@ const ProfileComponent: React.FC<{ onLogout: () => void }> = ({ onLogout }) => {
           justifyContent: 'space-between',
         }}
       >
-        <form onSubmit={handleSubmit(handleSave)}>
+        <form onSubmit={handleSubmit(onSubmit)}>
           <Box
             sx={{
               display: 'flex',
@@ -72,9 +111,13 @@ const ProfileComponent: React.FC<{ onLogout: () => void }> = ({ onLogout }) => {
               variant="outlined"
               fullWidth
               disabled={!isEditable}
-              {...register("nome", validationRules.nome)}
-              error={!!errors.nome}
-              helperText={(errors.nome && typeof errors.nome.message === 'string') ? errors.nome.message : ''}
+              {...register("username", validationRules.nome)}
+              error={!!errors.username}
+              helperText={(errors.username && typeof errors.username.message === 'string') ? errors.username.message : ''}
+              InputLabelProps={{
+                shrink: true,
+                style: { color: 'grey', fontSize: 14, fontWeight: 'bold', transform: 'translate(9px, -13px) scale(1)' }
+              }}
             />
 
             <TextField
@@ -85,6 +128,10 @@ const ProfileComponent: React.FC<{ onLogout: () => void }> = ({ onLogout }) => {
               {...register("email", validationRules.email)}
               error={!!errors.email}
               helperText={(errors.email && typeof errors.email.message === 'string') ? errors.email.message : ''}
+              InputLabelProps={{
+                shrink: true,
+                style: { color: 'grey', fontSize: 14, fontWeight: 'bold', transform: 'translate(9px, -13px) scale(1)' }
+              }}
             />
 
             <TextField
@@ -93,9 +140,13 @@ const ProfileComponent: React.FC<{ onLogout: () => void }> = ({ onLogout }) => {
               variant="outlined"
               fullWidth
               disabled={!isEditable}
-              {...register("senha", validationRules.password)}
-              error={!!errors.senha}
-              helperText={(errors.senha && typeof errors.senha.message === 'string') ? errors.senha.message : ''}
+              {...register("password", validationRules.password)}
+              error={!!errors.password}
+              helperText={(errors.password && typeof errors.password.message === 'string') ? errors.password.message : ''}
+              InputLabelProps={{
+                shrink: true,
+                style: { color: 'grey', fontSize: 14, fontWeight: 'bold', transform: 'translate(6px, -13px) scale(1)' }
+              }}
               InputProps={{
                 endAdornment: (
                   <InputAdornment position="end">
@@ -109,6 +160,12 @@ const ProfileComponent: React.FC<{ onLogout: () => void }> = ({ onLogout }) => {
                   </InputAdornment>
                 ),
               }}
+            />
+
+            <TextField
+              label="Id"
+              type="text" style={{ display:'none' }}
+              {...register("id")}
             />
 
             <Box

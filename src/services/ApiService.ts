@@ -57,13 +57,13 @@ export const confirmEmail = async (token: string): Promise<void> => {
   }
 };
 
-export const getUsers = async (): Promise<User[]> => {
+export const getUsers = async (email: String): Promise<User> => {
   try {
-    const response: AxiosResponse<User[]> = await api.get('/users');
+    const response: AxiosResponse<User> = await api.get(`/auth/findUserByEmail/${email}`);
     return response.data;
   } catch (error) {
     handleRequestError(error);
-    return Promise.reject(error); 
+    return Promise.reject(error);
   }
 };
 
@@ -77,9 +77,13 @@ export const createUser = async (userData: User): Promise<User> => {
   }
 };
 
-export const updateUser = async (userId: string, userData: User): Promise<User> => {
+export const updateProfile = async (userData: User): Promise<User> => {
   try {
-    const response: AxiosResponse<User> = await api.put(`/users/${userId}`, userData);
+    const response: AxiosResponse<User> = await api.put(`/auth/updateUser/${userData.id}`, JSON.stringify(userData), {
+      headers: {
+        'Content-Type': 'application/json'
+      }
+    });
     return response.data;
   } catch (error) {
     handleRequestError(error);
@@ -87,9 +91,10 @@ export const updateUser = async (userId: string, userData: User): Promise<User> 
   }
 };
 
-export const deleteUser = async (userId: string): Promise<void> => {
+
+export const deleteUser = async (id: Number | null): Promise<void> => {
   try {
-    const response: AxiosResponse<void> = await api.delete(`/users/${userId}`);
+    const response: AxiosResponse<void> = await api.delete(`/auth/deleteUser/${id}`);
     return response.data;
   } catch (error) {
     handleRequestError(error);

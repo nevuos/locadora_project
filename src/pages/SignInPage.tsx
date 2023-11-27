@@ -18,7 +18,7 @@ const SignInPage = () => {
     try {
       const result = await signIn(userData, rememberMe);
       if (result.success) {
-        navigate('/ProfilePage');
+        navigate('/ProfilePage', { state: { email: userData.email } });
       } else {
         showErrorAlert(`${result.errorDetails}`);
       }
