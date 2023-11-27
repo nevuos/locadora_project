@@ -8,6 +8,7 @@ import ProfilePage from '../pages/ProfilePage';
 import ResetPasswordPage from '../pages/ResetPasswordPage';
 import TitleBox from '../components/TitleBox';
 import ProtectedRoute from '../components/routes/ProtectedRoute';
+import ConfirmEmailPage from '../pages/ConfirmEmailPage';
 
 
 const RoutesWrapper: React.FC = () => {
@@ -25,7 +26,9 @@ const RoutesWrapper: React.FC = () => {
             <ProfilePage />
           </ProtectedRoute>
         } />
+        
         <Route path="/ResetPasswordPage" element={<ResetPasswordPage />} />
+        <Route path="/ConfirmEmailPage" element={<ConfirmEmailPage />} />
       </Routes>
       {shouldShowTitleBox && <TitleBox />}
     </Grid>

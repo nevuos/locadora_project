@@ -15,7 +15,7 @@ const SignUpPage = () => {
         await showSuccessAlert(result.message);
         navigate('/SignInPage');
       } else {
-        showErrorAlert(result.message);
+        showErrorAlert(`${result.errorDetails}`);
       }
     } catch (error) {
       showErrorAlert("Ocorreu um erro ao fazer o registro. Tente novamente mais tarde.");
