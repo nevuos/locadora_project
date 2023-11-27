@@ -1,3 +1,16 @@
-# https://www.robotstxt.org/robotstxt.html
 User-agent: *
-Disallow:
+Disallow: /admin/
+Disallow: /private/
+Disallow: /restricted/
+Disallow: /hidden/
+Disallow: /api/
+Disallow: /scripts/
+Disallow: /styles/
+Disallow: /images/
+Disallow: /downloads/
+Disallow: /cgi-bin/
+Disallow: /search/
+Disallow: /contact/
+
+# Diretiva para permitir que os bots acessem o sitemap.xml
+Sitemap: http://localhost:3000/sitemap.xml

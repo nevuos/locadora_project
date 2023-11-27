@@ -39,7 +39,7 @@ export const loginUser = async (userData: User): Promise<LoginResponse> => {
 
 export const resetPassword = async (email: string): Promise<void> => {
   try {
-    const response: AxiosResponse<void> = await api.post('/reset-password', { email });
+    const response: AxiosResponse<void> = await api.post('/request_password_reset', { email });
     return response.data;
   } catch (error) {
     handleRequestError(error);
@@ -47,15 +47,22 @@ export const resetPassword = async (email: string): Promise<void> => {
   }
 };
 
-export const confirmEmail = async (token: string): Promise<void> => {
+export const confirmEmail = async (confirmationUrl: string): Promise<{ msg: string }> => {
   try {
-    const response: AxiosResponse<void> = await api.post('/confirm-email', { token });
+    if (!api.defaults.baseURL) {
+      throw new Error('URL base não definida no axios.');
+    }
+
+    const urlWithoutBase = confirmationUrl.replace(api.defaults.baseURL, '');
+    const response: AxiosResponse<{ msg: string }> = await api.get(urlWithoutBase);
     return response.data;
   } catch (error) {
     handleRequestError(error);
     return Promise.reject(error); 
   }
 };
+
+
 
 export const getUsers = async (email: String): Promise<User> => {
   try {
